@@ -1,0 +1,101 @@
+
+<div class="container-grid">
+    <div class="wrapper-container">
+        <div id="image-container" class="image-posted"><img src="/{{currentPost.photopath}}"></div>
+
+        <div id="image-details">
+            <div id="image-title">Title:{{currentPost.title}}</div>
+            <div id="image-author">Author: {{currentPost.username}}</div>
+            <div id="image-date">Created:{{currentPost.created}}</div>
+            <div id="image-desc">Description:{{currentPost.description}}</div>
+
+        </div>
+    </div>
+
+    <div class="message-container">
+        <div>Comments</div>
+        <div id="messages">
+            {{#each currentPost.comments}}
+                {{>comment this}}
+            {{/each}}
+        </div>
+        <div id="comment-container" class="image-comment">
+            <div>
+                <div class="widget-area no-padding blank">
+                    <div>
+                        <textarea id="comment-text" placeholder="What do you think?"></textarea>
+                    </div>
+                    <label id="share-comment-button"  class="btn btn-success green">
+                         Share
+
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('span[class=date-posted]').forEach((postedDate) => {
+            postedDate.textContent = new Date(postedDate.textContent).toLocaleString();
+        });
+
+    });
+
+    function addMessage(data) {
+        let template = document.createElement('template');
+        template.innerHTML =
+                `<div id="message-${data.id}">
+                             <strong class="author-text">@${data.username}</strong>
+                             <span class="date-posted"> ${new Date().toLocaleString()}</span>
+                             <div class="comment-text">${data.comment}</div>
+                              </div>`
+
+        ;
+        document.getElementById('messages').firstChild.before(template.content.firstChild);
+    }
+
+        document.getElementById('share-comment-button').onclick = (event) => {
+            let commentText = document.getElementById('comment-text').value;
+            let postId = document.location.pathname.match(/\d+/g).map(Number)[0];
+
+            if (!commentText) {
+                return;
+
+            }
+            let fetchOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "Application/json"
+                },
+                body: JSON.stringify({
+                    comment: commentText,
+                    postId: postId,
+                })
+            }
+
+                fetch('/comments/create', fetchOptions)
+                        .then((response) => response.json())
+                        .then((data) => {
+
+                            if (data.code === 1) {
+                                addMessage(data);
+                            } else {
+                                console.log(data.message);
+                                addFlashFromFrontEnd(data.message);
+                            }
+                        })
+                        .catch(err => console.log(err));
+        }
+</script>
+
+
+
+
+
+
+
+
+

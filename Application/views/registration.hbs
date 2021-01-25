@@ -1,0 +1,85 @@
+
+<form id="form" class="container" method="POST" action="/users/register"
+    enctype="application/x-www-form-urlencoded">
+    <legend><h1>Registration</h1></legend>
+    <div class="">
+        <label for="username" >Username </label>
+        <input type="text"  placeholder="Username"  id="userName" required name="username" />
+
+    </div>
+    <div class="">
+        <label for="email">Email</label>
+        <input type="email" placeholder="Email"  id="email"  required name="email" />
+    </div>
+    <div class="">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" required id="password" required name="password"  />
+    </div>
+    <div class="">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" required  id="confirmPassword" required name="cPassword"  />
+    </div>
+    <div class="">
+        <label for="verification">13+ years of age</label>
+        <input type="checkbox"  required id="verification" />
+    </div>
+    <div id="">
+        <a href ="#">Accept TOS and Privacy Rules</a>
+        <input type="checkbox"  required id="verification1" />
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button class="btn btn-outline-success " type="submit">Submit</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    window.onload=function() {
+        const form = document.getElementById('form');
+        const username = document.getElementById('userName');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const email=document.getElementById('email');
+        form.addEventListener('submit', (e) => {
+            if(!checkInputs()){
+                e.preventDefault();
+            }
+        });
+
+        function checkInputs() {
+            //get the values from the input
+            const usernameValue = username.value.trim();
+            const passwordValue = password.value.trim();
+            const confirmPasswordValue = confirmPassword.value.trim();
+            const emailValue=email.value.trim();
+            let flag = false;
+            //condition
+            if(usernameValue.match(/^[a-zA-Z0-9\-]{3,}$/)
+                    && passwordValue.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z*-+-./!@#$()^&*]{8,}$/)
+                    && (passwordValue===confirmPasswordValue)
+                    && emailValue.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/))
+            {
+                flag=true;
+                addFlashFromFrontEnd("form has been submitted");
+            }
+
+
+            else if(!usernameValue.match(/^[a-zA-Z0-9\-]{3,}$/)){
+                addFlashFromFrontEnd("Username must be 3 or more alphanumeric character only ");
+            }else if(!passwordValue.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z*-+-./!@#$()^&*]{8,}$/)){
+                addFlashFromFrontEnd("Password must be atleast 9 characters, include at least each one of special character, uppercase, lowercase and number");
+
+            }else if(passwordValue!==confirmPasswordValue){
+                addFlashFromFrontEnd("Password does not match");
+
+            }else{
+                addFlashFromFrontEnd("Error in the form");
+
+            }
+            return flag;
+        }
+    }
+
+</script>
+

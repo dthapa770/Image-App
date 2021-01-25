@@ -1,0 +1,38 @@
+
+<form id ="post-image" class="container" method="POST" action='/posts/createPost' enctype="multipart/form-data">
+
+    <legend><h1>PostImage</h1></legend>
+    <div class="control-form">
+        <label for="title">Title</label>
+        <input type="text" placeholder="Text" required  id="title" name="titlePost"/>
+    </div>
+    <br>
+    <div class="control-form">
+        <label for="description">Description</label>
+        <input type="text" placeholder="Description" required id="description" name="descriptionPost"/>
+    </div>
+    <br>
+
+    <div id =" uploader-button" class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01" >Upload</span>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                   aria-describedby="inputGroupFileAddon01" required name="uploadImage" placeholder="Upload your image here" >
+            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+    </div>
+    <br>
+    <div class="control-form">
+        <label for="policy">Accept Policy for Image Posting</label>
+        <input type="checkbox" required id="policy"/>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col text-center">
+            <button class="btn btn-outline-success btn-primary " type="submit">Submit</button>
+        </div>
+    </div>
+</form>
+
