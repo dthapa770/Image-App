@@ -1,11 +1,10 @@
 const mysql=require('mysql2');
-
 const pool=mysql.createPool({
 
     host:'localhost',
-    user: 'dinesh',
-    password:'password123',
-    database: 'csc317db',
+    user: 'root',
+    password:'Ilikedatabase',
+    database: 'imageappDB',
     connectionLimit:50,
     debug:false,
 
